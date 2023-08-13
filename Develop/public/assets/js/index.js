@@ -50,7 +50,7 @@ const deleteNote = (id) =>
     },
   });
 
-const renderActiveNote = () => {
+const renderActiveNote = () => { 
   hide(saveNoteBtn);
 
   if (activeNote.id) {
@@ -66,7 +66,7 @@ const renderActiveNote = () => {
   }
 };
 
-const handleNoteSave = () => {
+const handleNoteSave = () => { 
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
