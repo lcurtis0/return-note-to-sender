@@ -1,7 +1,7 @@
 
 const express = require('express');
 const path = require('path');
-const data = require('./db/db.json'); 
+const dbData = require('./Develop/db/db.json');
 
 const PORT = 3001;
 const app = express();
@@ -11,13 +11,16 @@ const notes = require('./notes.html');
 const index = require('./index.html');
 
 app.get('/notes', (req, res) => {
-  return res.sendFile(path.join(__dirname, 'notes.html'));
+  return res.sendFile(path.join(__dirname, notes));
 })
 
 app.get('*', (req, res) => {
-  return res.sendFile(path.join(__dirname, 'index.html'));
+  return res.sendFile(path.join(__dirname, index));
 });
 
+app.get('/api', (req, res) =>{
+  return res.json(dbData);
+})
 
 
 const notesRouter = require('./routes/notes.js');
