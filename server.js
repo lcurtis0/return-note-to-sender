@@ -10,10 +10,9 @@ app.use(express.static(path.join(__dirname ,'public')));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(routes);
-app.use()
 
 app.listen(PORT, ()=>
 console.log(`PORT is working at ${PORT}`));
 
 
-
+module.exports = express;

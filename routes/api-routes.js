@@ -19,29 +19,26 @@ app.get('/', (req, res) => {
 /*
  The following API routes should be created:
 
-3. GET /api/notes should read the db.json file
- and return all saved notes as JSON.
-
-4. POST /api/notes should receive a new note to save on the request body, 
+4. POST /api/notes should body, 
 add it to the db.json file, and then return the new note to the client. 
 You'll need to find a way to give each note a unique id when it's saved 
 (look into npm packages that could do this for you). 
 */
 
 const express = require('express');
-const { writeRead, readFile } = require("fs");
+const { writeFile, readFile } = require("fs");
 const router = express.Router();
-
+const dbData = require('../db/db.json');
 
 router.get('/notes', (req, res) => {
-  const dbData = readFile(path.join(__dirname ,'../db/db.json'));
-  res.status(200).json(dbData);
+  const dbDataFile = readFile(path.join(__dirname ,'../db/db.json'));
+  res.status(200).json(dbDataFile);
 })
 
 router.get('/notes/:activeNoteid', (req, res) => {
   if (req.params.activeNoteid) {
     console.info(`For client:${req.method} request for a new note has been made`);
-    const newNoteId = req.params.activeNote.id;
+    const newNoteId = req.params.activeNoteid;
     for (let i = 0; i < dbData.length; i++) {
       const currentNote = dbData[i];
       if (currentNote.activeNoteid === newNoteId) {
@@ -57,6 +54,22 @@ router.get('/notes/:activeNoteid', (req, res) => {
   }
 })
 
+router.post('/notes/:activeNoteid', (req, res) => {
+  if (req.body && req.params.activeNoteid) {
+    console.info(`For client:${req.method} request for a new note has been made`);
+    const newNoteId = req.params.activeNoteid;
+    for (let i = 0; i < dbData.length; i++) {
+      const currentNote = dbData[i];
+      if (currentNote.activeNoteid === newNoteId) {
+        res.json(currentNote);
+        return;
+      }
+    }
+    res.status(404).send('No new note has been made or found 404');
+    console.info(`No new note has been made or found 404`);
+  }
+})
+
 
 router.post('/notes', (req, res) => {
   console.info(`${req.method} request received to add new note`);
@@ -69,9 +82,24 @@ router.post('/notes', (req, res) => {
       activeNoteid: (1 + Math.floor(Math.random()) * 100)
     }
 
-    const noteString = JSON.stringify(newNote);
 
-    dbData.push(noteString);
+    readFile('./db/db.json', 'utf8', (err, newNote) => {
+      if (err) {
+        console.error('There was an error reading the file '+ err);
+      } else {
+        const parsedNote = JSON.parse(dbData);
+    
+        parsedNote.push(newNote);
+    
+        // This writes a new file including the pushed parsed note
+        writeFile(
+          './db/db.json',
+          JSON.stringify(parsedNote),
+          (err) =>
+            err ? console.error(err): console.info('Successfully added a new note to list!')
+        );
+      }
+    });
 
   }
 
