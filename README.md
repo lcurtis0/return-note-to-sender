@@ -26,19 +26,22 @@ Users have to use the Heroku link inorder access the website.
 
 Here is the video
 
+Video: https://screenpal.com/watch/c0jFnuVpoJR
 
+Heroku:
+
+https://quiet-castle-28823-ee24fd1d8922.herokuapp.com/
 
 # Credits
 
-Credit to w3.org for explaining vector images and svg code
-URL: https://www.w3.org/TR/SVG2/shapes.html#RectElement
+N/A
 
 # License
 
 '![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)'
 
 # Deployment
-Evaluated environment url: https://lcurtis0.github.io/Quick-brand/
+
 
 Badges
 N/A
